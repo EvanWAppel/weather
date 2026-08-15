@@ -1,0 +1,34 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# Next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+
+# Production / misc
+*.pem
+.DS_Store
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel
+
+# Editor
+.vscode/
+*.code-workspace
+
+# TypeScript
+*.tsbuildinfo
