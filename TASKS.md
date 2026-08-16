@@ -6,7 +6,7 @@ assume earlier ones.
 
 ## SETUP
 
-- [ ] **SETUP-01** Scaffold Next.js at the repo root: `create-next-app` with App
+- [x] **SETUP-01** Scaffold Next.js at the repo root: `create-next-app` with App
   Router, TypeScript, Tailwind, ESLint, `src/`, `@/*` alias. Replace boilerplate
   splash with a minimal placeholder. Lint + production build green.
 - [ ] **SETUP-02** Wire up the manifest commands so `orch dev/test/lint weather`
