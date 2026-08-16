@@ -2,12 +2,16 @@
 
 import { useState } from "react";
 import LocationSearch from "./LocationSearch";
+import ForecastPanel from "./ForecastPanel";
+import UnitToggle from "./UnitToggle";
 import { getCurrentLocation } from "@/lib/geolocation";
 import { useActiveLocation } from "@/lib/locationStore";
+import { useUnit } from "@/lib/unitStore";
 import { locationLabel } from "@/lib/types";
 
 export default function WeatherApp() {
   const [location, setLocation] = useActiveLocation();
+  const [unit, setUnit] = useUnit();
   const [locating, setLocating] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
 
@@ -52,15 +56,12 @@ export default function WeatherApp() {
         )}
       </div>
 
-      <section className="rounded-lg border border-black/[.08] px-4 py-3 dark:border-white/[.12]">
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          Active location
-        </p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-lg font-medium">{locationLabel(location)}</p>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
-        </p>
-      </section>
+        <UnitToggle unit={unit} onChange={setUnit} />
+      </div>
+
+      <ForecastPanel location={location} unit={unit} />
     </main>
   );
 }
