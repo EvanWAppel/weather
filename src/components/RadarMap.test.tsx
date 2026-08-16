@@ -75,6 +75,24 @@ describe("RadarMap", () => {
     });
   });
 
+  it("recenters the map when the active location changes (MAP-05)", () => {
+    fetchRadarFrames.mockResolvedValue({ host: "https://h", frames: [], generated: 0 });
+    const { rerender } = render(<RadarMap location={NYC} />);
+    const map = mapInstances[0] as unknown as {
+      easeTo: ReturnType<typeof vi.fn>;
+    };
+
+    const paris: Location = {
+      id: 2,
+      name: "Paris",
+      latitude: 48.85,
+      longitude: 2.35,
+    };
+    rerender(<RadarMap location={paris} />);
+
+    expect(map.easeTo).toHaveBeenCalledWith({ center: [2.35, 48.85] });
+  });
+
   it("removes the map on unmount", () => {
     fetchRadarFrames.mockResolvedValue({ host: "https://h", frames: [], generated: 0 });
     const { unmount } = render(<RadarMap location={NYC} />);
