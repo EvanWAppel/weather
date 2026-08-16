@@ -6,13 +6,13 @@ assume earlier ones.
 
 ## SETUP
 
-- [ ] **SETUP-01** Scaffold Next.js at the repo root: `create-next-app` with App
+- [x] **SETUP-01** Scaffold Next.js at the repo root: `create-next-app` with App
   Router, TypeScript, Tailwind, ESLint, `src/`, `@/*` alias. Replace boilerplate
   splash with a minimal placeholder. Lint + production build green.
-- [ ] **SETUP-02** Wire up the manifest commands so `orch dev/test/lint weather`
+- [x] **SETUP-02** Wire up the manifest commands so `orch dev/test/lint weather`
   work: `npm run dev`, `npm run test`, `npm run lint`. Add a test runner
   (Vitest) and one smoke test so `npm run test` is real.
-- [ ] **SETUP-03** Add a footer with data-source attribution placeholders
+- [x] **SETUP-03** Add a footer with data-source attribution placeholders
   (Open-Meteo, RainViewer, OpenStreetMap) — satisfies NFR-4 early.
 
 ## LOCATION (FR-1..3)
