@@ -12,7 +12,7 @@ assume earlier ones.
 - [x] **SETUP-02** Wire up the manifest commands so `orch dev/test/lint weather`
   work: `npm run dev`, `npm run test`, `npm run lint`. Add a test runner
   (Vitest) and one smoke test so `npm run test` is real.
-- [ ] **SETUP-03** Add a footer with data-source attribution placeholders
+- [x] **SETUP-03** Add a footer with data-source attribution placeholders
   (Open-Meteo, RainViewer, OpenStreetMap) — satisfies NFR-4 early.
 
 ## LOCATION (FR-1..3)
