@@ -17,11 +17,11 @@ assume earlier ones.
 
 ## LOCATION (FR-1..3)
 
-- [ ] **LOC-01** Open-Meteo geocoding client + search box: type a place name,
+- [x] **LOC-01** Open-Meteo geocoding client + search box: type a place name,
   show results, select to set active location (lat/lon + label).
-- [ ] **LOC-02** "Use my location" via `navigator.geolocation`, with graceful
+- [x] **LOC-02** "Use my location" via `navigator.geolocation`, with graceful
   fallback when denied/unavailable.
-- [ ] **LOC-03** Persist active location + a first-visit default in
+- [x] **LOC-03** Persist active location + a first-visit default in
   `localStorage`; rehydrate on load.
 
 ## FORECAST (FR-4..6)
