@@ -38,7 +38,7 @@ assume earlier ones.
 
 ## RADAR MAP (FR-7..9)
 
-- [ ] **MAP-01** Add MapLibre GL; render a map centered on the active location
+- [x] **MAP-01** Add MapLibre GL; render a map centered on the active location
   with free OSM raster tiles. Lazy-load the map bundle (NFR-3).
 - [ ] **MAP-02** RainViewer frame-index client (past + nowcast frames with
   timestamps).
