@@ -2,10 +2,26 @@
 
 import { useState } from "react";
 import LocationSearch from "./LocationSearch";
+import { getCurrentLocation } from "@/lib/geolocation";
 import { locationLabel, type Location } from "@/lib/types";
 
 export default function WeatherApp() {
   const [location, setLocation] = useState<Location | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [geoError, setGeoError] = useState<string | null>(null);
+
+  async function handleUseMyLocation() {
+    setLocating(true);
+    setGeoError(null);
+    try {
+      setLocation(await getCurrentLocation());
+    } catch (err) {
+      // Degrade gracefully — surface the reason, keep the app usable (FR-2).
+      setGeoError(err instanceof Error ? err.message : "Couldn't locate you.");
+    } finally {
+      setLocating(false);
+    }
+  }
 
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-6 py-10">
@@ -18,7 +34,22 @@ export default function WeatherApp() {
         </p>
       </header>
 
-      <LocationSearch onSelect={setLocation} />
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-wrap items-center gap-3">
+          <LocationSearch onSelect={setLocation} />
+          <button
+            type="button"
+            onClick={handleUseMyLocation}
+            disabled={locating}
+            className="rounded-lg border border-black/[.12] px-4 py-2.5 text-sm font-medium hover:bg-black/[.04] disabled:opacity-60 dark:border-white/[.16] dark:hover:bg-white/[.06]"
+          >
+            {locating ? "Locating…" : "Use my location"}
+          </button>
+        </div>
+        {geoError && (
+          <p className="text-sm text-red-600 dark:text-red-400">{geoError}</p>
+        )}
+      </div>
 
       {location ? (
         <section className="rounded-lg border border-black/[.08] px-4 py-3 dark:border-white/[.12]">
