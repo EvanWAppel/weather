@@ -9,6 +9,9 @@
 /build
 next-env.d.ts
 
+# Testing
+/coverage
+
 # Production / misc
 *.pem
 .DS_Store
