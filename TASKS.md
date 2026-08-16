@@ -17,24 +17,24 @@ assume earlier ones.
 
 ## LOCATION (FR-1..3)
 
-- [ ] **LOC-01** Open-Meteo geocoding client + search box: type a place name,
+- [x] **LOC-01** Open-Meteo geocoding client + search box: type a place name,
   show results, select to set active location (lat/lon + label).
-- [ ] **LOC-02** "Use my location" via `navigator.geolocation`, with graceful
+- [x] **LOC-02** "Use my location" via `navigator.geolocation`, with graceful
   fallback when denied/unavailable.
-- [ ] **LOC-03** Persist active location + a first-visit default in
+- [x] **LOC-03** Persist active location + a first-visit default in
   `localStorage`; rehydrate on load.
 
 ## FORECAST (FR-4..6)
 
-- [ ] **FC-01** Open-Meteo forecast client: request 10 daily days
+- [x] **FC-01** Open-Meteo forecast client: request 10 daily days
   (`forecast_days=10`) with temp max/min, precipitation probability, weather
   code. Typed response, explicit error surfacing (no swallowing).
-- [ ] **FC-02** WMO weather-code → icon + label mapping.
-- [ ] **FC-03** 10-day forecast UI: one card/row per day (day label, icon,
+- [x] **FC-02** WMO weather-code → icon + label mapping.
+- [x] **FC-03** 10-day forecast UI: one card/row per day (day label, icon,
   high/low, precip %). Responsive.
-- [ ] **FC-04** °F/°C unit toggle that updates the view and persists to
+- [x] **FC-04** °F/°C unit toggle that updates the view and persists to
   `localStorage`.
-- [ ] **FC-05** Loading + error states for the forecast panel.
+- [x] **FC-05** Loading + error states for the forecast panel.
 
 ## RADAR MAP (FR-7..9)
 
