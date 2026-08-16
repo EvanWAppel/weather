@@ -3,10 +3,11 @@
 import { useState } from "react";
 import LocationSearch from "./LocationSearch";
 import { getCurrentLocation } from "@/lib/geolocation";
-import { locationLabel, type Location } from "@/lib/types";
+import { useActiveLocation } from "@/lib/locationStore";
+import { locationLabel } from "@/lib/types";
 
 export default function WeatherApp() {
-  const [location, setLocation] = useState<Location | null>(null);
+  const [location, setLocation] = useActiveLocation();
   const [locating, setLocating] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
 
@@ -51,21 +52,15 @@ export default function WeatherApp() {
         )}
       </div>
 
-      {location ? (
-        <section className="rounded-lg border border-black/[.08] px-4 py-3 dark:border-white/[.12]">
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            Active location
-          </p>
-          <p className="text-lg font-medium">{locationLabel(location)}</p>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
-          </p>
-        </section>
-      ) : (
+      <section className="rounded-lg border border-black/[.08] px-4 py-3 dark:border-white/[.12]">
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          Search for a city to get started.
+          Active location
         </p>
-      )}
+        <p className="text-lg font-medium">{locationLabel(location)}</p>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+        </p>
+      </section>
     </main>
   );
 }
