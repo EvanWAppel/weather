@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import LocationSearch from "./LocationSearch";
 import ForecastPanel from "./ForecastPanel";
 import UnitToggle from "./UnitToggle";
+import DeferUntilVisible from "./DeferUntilVisible";
 import { getCurrentLocation } from "@/lib/geolocation";
 import { useActiveLocation } from "@/lib/locationStore";
 import { useUnit } from "@/lib/unitStore";
@@ -75,7 +76,9 @@ export default function WeatherApp() {
 
       <section aria-label="Radar map" className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">Radar</h2>
-        <RadarMap location={location} />
+        <DeferUntilVisible minHeight={480}>
+          <RadarMap location={location} />
+        </DeferUntilVisible>
       </section>
     </main>
   );

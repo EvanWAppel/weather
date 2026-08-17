@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   fetchForecast,
+  FORECAST_DAYS,
   type DailyForecast,
   type Forecast,
   type TemperatureUnit,
@@ -56,9 +57,18 @@ export default function ForecastPanel({ location, unit }: ForecastPanelProps) {
   }, [latitude, longitude, unit]);
 
   if (loading) {
+    // Skeleton cards reserve the loaded layout so there's no shift (low CLS).
     return (
-      <section aria-busy="true" className="text-sm text-zinc-500">
-        Loading 10-day forecast…
+      <section aria-busy="true" aria-label="Loading 10-day forecast">
+        <h2 className="mb-3 text-lg font-semibold">10-Day Forecast</h2>
+        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+          {Array.from({ length: FORECAST_DAYS }, (_, i) => (
+            <li
+              key={i}
+              className="h-[132px] animate-pulse rounded-lg border border-black/[.08] bg-black/[.03] dark:border-white/[.12] dark:bg-white/[.03]"
+            />
+          ))}
+        </ul>
       </section>
     );
   }
