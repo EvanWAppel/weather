@@ -38,14 +38,14 @@ assume earlier ones.
 
 ## RADAR MAP (FR-7..9)
 
-- [ ] **MAP-01** Add MapLibre GL; render a map centered on the active location
+- [x] **MAP-01** Add MapLibre GL; render a map centered on the active location
   with free OSM raster tiles. Lazy-load the map bundle (NFR-3).
-- [ ] **MAP-02** RainViewer frame-index client (past + nowcast frames with
+- [x] **MAP-02** RainViewer frame-index client (past + nowcast frames with
   timestamps).
-- [ ] **MAP-03** Radar tile overlay layer driven by the selected frame.
-- [ ] **MAP-04** Timeline control: play/pause + scrub, with per-frame timestamp
+- [x] **MAP-03** Radar tile overlay layer driven by the selected frame.
+- [x] **MAP-04** Timeline control: play/pause + scrub, with per-frame timestamp
   labels.
-- [ ] **MAP-05** Keep map + forecast in sync with the active location (recenter +
+- [x] **MAP-05** Keep map + forecast in sync with the active location (recenter +
   refetch on change).
 
 ## SHIP

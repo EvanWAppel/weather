@@ -49,4 +49,27 @@ describe("ForecastPanel", () => {
       ),
     );
   });
+
+  it("refetches when the active location changes (MAP-05)", async () => {
+    fetchForecast.mockResolvedValue(FORECAST);
+    const { rerender } = render(
+      <ForecastPanel location={NYC} unit="fahrenheit" />,
+    );
+    await screen.findByText("10-Day Forecast");
+
+    const paris: Location = {
+      id: 2,
+      name: "Paris",
+      latitude: 48.85,
+      longitude: 2.35,
+    };
+    rerender(<ForecastPanel location={paris} unit="fahrenheit" />);
+
+    await waitFor(() =>
+      expect(fetchForecast).toHaveBeenCalledWith(
+        { latitude: 48.85, longitude: 2.35 },
+        expect.objectContaining({ unit: "fahrenheit" }),
+      ),
+    );
+  });
 });

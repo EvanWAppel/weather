@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import LocationSearch from "./LocationSearch";
 import ForecastPanel from "./ForecastPanel";
 import UnitToggle from "./UnitToggle";
@@ -8,6 +9,15 @@ import { getCurrentLocation } from "@/lib/geolocation";
 import { useActiveLocation } from "@/lib/locationStore";
 import { useUnit } from "@/lib/unitStore";
 import { locationLabel } from "@/lib/types";
+
+// Lazy-load the map so the forecast is interactive before the heavier
+// MapLibre bundle loads (NFR-3).
+const RadarMap = dynamic(() => import("./RadarMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[420px] w-full animate-pulse rounded-lg border border-black/[.08] bg-black/[.03] dark:border-white/[.12] dark:bg-white/[.03]" />
+  ),
+});
 
 export default function WeatherApp() {
   const [location, setLocation] = useActiveLocation();
@@ -62,6 +72,11 @@ export default function WeatherApp() {
       </div>
 
       <ForecastPanel location={location} unit={unit} />
+
+      <section aria-label="Radar map" className="flex flex-col gap-3">
+        <h2 className="text-lg font-semibold">Radar</h2>
+        <RadarMap location={location} />
+      </section>
     </main>
   );
 }
