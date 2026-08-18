@@ -52,9 +52,11 @@ assume earlier ones.
 
 - [x] **SHIP-01** Verify ad-free/tracker-free: no third-party ad/analytics
   requests in the network tab (NFR-1). Basic Lighthouse mobile pass.
-- [ ] **SHIP-02** Connect the GitHub repo to Vercel; confirm auto-deploy on push
-  to main; attach `weather.evanappel.me`.
-- [ ] **SHIP-03** Flip `status = "wip"` (then `"live"`) in the portfolio
+- [x] **SHIP-02** Connect the GitHub repo to Vercel; confirm auto-deploy on push
+  to main; attach `weather.evanappel.me`. (Project `weather` linked to the repo,
+  prod branch `main`; live at weather-iota-murex.vercel.app. Custom domain added
+  to the project — pending an `A weather → 76.76.21.21` record in Wix DNS.)
+- [x] **SHIP-03** Flip `status = "wip"` (then `"live"`) in the portfolio
   `projects.toml` and add the row to the portfolio README table.
 
 ## Later (out of MVP scope — see PRD §7)
