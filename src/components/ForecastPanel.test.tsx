@@ -5,7 +5,10 @@ import type { Forecast } from "@/lib/forecast";
 import type { Location } from "@/lib/types";
 
 const fetchForecast = vi.hoisted(() => vi.fn());
-vi.mock("@/lib/forecast", () => ({ fetchForecast }));
+vi.mock("@/lib/forecast", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/forecast")>();
+  return { ...actual, fetchForecast };
+});
 
 const NYC: Location = {
   id: 1,
