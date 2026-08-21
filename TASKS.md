@@ -52,8 +52,14 @@ assume earlier ones.
 
 - [x] **SHIP-01** Verify ad-free/tracker-free: no third-party ad/analytics
   requests in the network tab (NFR-1). Basic Lighthouse mobile pass.
-- [ ] **SHIP-02** Connect the GitHub repo to Vercel; confirm auto-deploy on push
-  to main; attach `weather.evanappel.me`.
+- [x] **SHIP-02** Connect the GitHub repo to Vercel; confirm auto-deploy on push
+  to main; attach `weather.evanappel.me`. (Repo `EvanWAppel/weather` linked to
+  Vercel project `weather`, prod branch `main`; auto-deploy on push to `main`
+  verified from a git-triggered production build. Live at
+  https://weather-iota-murex.vercel.app. Custom domain `weather.evanappel.me` is
+  added to the project but **deferred** — it still needs a `weather` DNS record
+  at Wix (`CNAME weather → cname.vercel-dns.com`), so we use the vercel.app URL
+  for now.)
 - [ ] **SHIP-03** Flip `status = "wip"` (then `"live"`) in the portfolio
   `projects.toml` and add the row to the portfolio README table.
 
