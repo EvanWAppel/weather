@@ -10,6 +10,11 @@ vi.mock("@/lib/forecast", async (importOriginal) => {
   return { ...actual, fetchForecast };
 });
 
+// Stub the lazy chart so the panel test doesn't pull in uPlot/canvas under jsdom.
+vi.mock("./ForecastCharts", () => ({
+  default: () => <div data-testid="forecast-charts" />,
+}));
+
 const NYC: Location = {
   id: 1,
   name: "New York",
@@ -17,15 +22,28 @@ const NYC: Location = {
   longitude: -74.01,
 };
 
+const hours = Array.from({ length: 24 }, (_, i) => i);
 const FORECAST: Forecast = {
   unit: "fahrenheit",
   days: Array.from({ length: 10 }, (_, i) => ({
     date: `2026-08-${String(16 + i).padStart(2, "0")}`,
     tempMax: 80 + i,
     tempMin: 60 + i,
+    precipitationSum: 0,
     precipitationProbabilityMax: i * 5,
     weatherCode: 0,
   })),
+  hourly: {
+    time: hours.map((i) => `2026-08-16T${String(i).padStart(2, "0")}:00`),
+    temperature: hours.map(() => 75),
+    dewPoint: hours.map(() => 50),
+    feelsLike: hours.map(() => 77),
+    cloudCover: hours.map(() => 20),
+    precipProbability: hours.map(() => 10),
+    humidity: hours.map(() => 40),
+    pressureInHg: hours.map(() => 29.9),
+    chanceOfSnow: hours.map(() => 0),
+  },
 };
 
 afterEach(() => {
@@ -39,7 +57,15 @@ describe("ForecastPanel", () => {
 
     await screen.findByText("10-Day Forecast");
     expect(screen.getAllByRole("listitem")).toHaveLength(10);
-    expect(screen.getByText("Today")).toBeInTheDocument();
+    // Cards carry a weekday + month/day label (WU-style columns).
+    expect(screen.getByText(/8\/16/)).toBeInTheDocument();
+  });
+
+  it("renders the trend charts alongside the cards", async () => {
+    fetchForecast.mockResolvedValue(FORECAST);
+    render(<ForecastPanel location={NYC} unit="fahrenheit" />);
+
+    expect(await screen.findByTestId("forecast-charts")).toBeInTheDocument();
   });
 
   it("surfaces an error instead of a blank panel", async () => {
