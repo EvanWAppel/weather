@@ -40,5 +40,5 @@ export default function UPlotChart({ options, data }: UPlotChartProps) {
     };
   }, [options, data]);
 
-  return <div ref={containerRef} className="w-full overflow-hidden" />;
+  return <div ref={containerRef} className="uplot-wrap w-full overflow-hidden" />;
 }

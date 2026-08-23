@@ -24,3 +24,17 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* uPlot legend: the trend charts sit on always-white cards, so keep the legend
+   text dark and legible regardless of the page's light/dark theme (otherwise it
+   inherits the near-white dark-mode foreground and vanishes on white). Scoped
+   under .uplot-wrap to win over uPlot's own stylesheet load order. */
+.uplot-wrap .u-legend {
+  color: #374151;
+  font-size: 12px;
+}
+
+.uplot-wrap .u-legend th,
+.uplot-wrap .u-legend .u-label {
+  font-weight: 500;
+}
