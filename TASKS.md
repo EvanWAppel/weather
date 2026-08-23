@@ -35,6 +35,9 @@ assume earlier ones.
 - [x] **FC-04** °F/°C unit toggle that updates the view and persists to
   `localStorage`.
 - [x] **FC-05** Loading + error states for the forecast panel.
+- [x] **FC-06** WU-style 10-day redesign: restyled day-card row + two hourly
+  trend charts (Temp/Dew Point/Feels Like; Cloud/Precip/Snow/Humidity/Pressure)
+  via lazy-loaded uPlot. Scope expansion logged in [DECISIONS.md](./DECISIONS.md).
 
 ## RADAR MAP (FR-7..9)
 

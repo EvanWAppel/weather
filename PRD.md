@@ -39,9 +39,11 @@ No ads, no tracking, no account, no upsell. Fast first paint, works on a phone.
 - Deploy on Vercel at **weather.evanappel.me**, auto-deploying on push to main.
 
 ### Non-Goals (for now)
-- Reproducing *any* other Weather Underground feature: hourly tables, historical
-  data, Weather Stations / PWS network, severe-weather alerts pages, news,
-  webcams, air quality, pollen, "Wundermap" layer soup, etc.
+- Reproducing *any* other Weather Underground feature: a standalone hourly
+  table / HOURLY tab, historical data, Weather Stations / PWS network,
+  severe-weather alerts pages, news, webcams, air quality, pollen, "Wundermap"
+  layer soup, etc. (Note: hourly data shown as **trend charts within the 10-day
+  forecast** is in scope — see FR-4 and DECISIONS.md 2026-08-22.)
 - User accounts, saved locations sync, or notifications.
 - Native mobile apps (responsive web only).
 - A custom backend/database — the app is a thin client over public weather APIs.
@@ -86,8 +88,12 @@ No ads, no tracking, no account, no upsell. Fast first paint, works on a phone.
 
 ### 6.2 10-day forecast
 - **FR-4** For the active location, fetch and render a **10-day** daily forecast
-  from Open-Meteo: day label, weather-condition icon (mapped from WMO weather
-  code), high/low temperature, and precipitation probability.
+  from Open-Meteo: a row of day cards (day label, weather-condition icon mapped
+  from WMO weather code, high/low temperature, precipitation amount) plus two
+  **hourly trend charts** under the cards, matching the Weather Underground
+  10-day view: (a) Temperature / Dew Point / Feels Like, and (b) Cloud Cover /
+  Chance of Precip / Chance of Snow / Humidity / Pressure. See DECISIONS.md
+  (2026-08-22) for the scope call and data notes.
 - **FR-5** Temperature unit toggle (°F/°C) updates the whole view and persists.
 - **FR-6** Loading and error states are explicit (no silent blank cards). Do not
   swallow API errors — surface a readable message.
