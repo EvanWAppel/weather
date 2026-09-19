@@ -9,7 +9,7 @@ import DeferUntilVisible from "./DeferUntilVisible";
 import { getCurrentLocation } from "@/lib/geolocation";
 import { useActiveLocation } from "@/lib/locationStore";
 import { useUnit } from "@/lib/unitStore";
-import { locationLabel } from "@/lib/types";
+
 
 // Lazy-load the map so the forecast is interactive before the heavier
 // MapLibre bundle loads (NFR-3).
@@ -40,46 +40,26 @@ export default function WeatherApp() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-6 py-10">
-      <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Ad-Free Weather
-        </h1>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          10-day forecast and interactive radar — no ads, no trackers.
-        </p>
+    <main className="weather-shell" id="top">
+      <header className="masthead">
+        <a href="#top" className="wordmark" aria-label="Ad-Free Weather home"><span className="brand-sun" aria-hidden="true">✳</span> atmosphere<span className="brand-period">.</span></a>
+        <p className="masthead-note">A little clarity.<br />Whatever the weather.</p>
+        <span className="independent-label"><span className="status-dot" /> ALWAYS AD-FREE</span>
       </header>
-
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-wrap items-center gap-3">
-          <LocationSearch onSelect={setLocation} />
-          <button
-            type="button"
-            onClick={handleUseMyLocation}
-            disabled={locating}
-            className="rounded-lg border border-black/[.12] px-4 py-2.5 text-sm font-medium hover:bg-black/[.04] disabled:opacity-60 dark:border-white/[.16] dark:hover:bg-white/[.06]"
-          >
-            {locating ? "Locating…" : "Use my location"}
-          </button>
-        </div>
-        {geoError && (
-          <p className="text-sm text-red-600 dark:text-red-400">{geoError}</p>
-        )}
-      </div>
-
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-lg font-medium">{locationLabel(location)}</p>
+      <div className="edition-line"><h1>Ad-Free Weather</h1><span>YOUR DAILY PERSPECTIVE ON THE SKY</span><span>EST. 2026 ↗</span></div>
+      <div className="location-toolbar">
+        <div className="search-wrap"><span aria-hidden="true" className="search-symbol">⌕</span><LocationSearch onSelect={setLocation} /></div>
+        <button type="button" onClick={handleUseMyLocation} disabled={locating} className="location-button"><span aria-hidden="true">⌖</span> {locating ? "Locating…" : "Use my location"}</button>
         <UnitToggle unit={unit} onChange={setUnit} />
       </div>
-
+      {geoError && <p role="alert" className="error-message">{geoError}</p>}
       <ForecastPanel location={location} unit={unit} />
-
-      <section aria-label="Radar map" className="flex flex-col gap-3">
-        <h2 className="text-lg font-semibold">Radar</h2>
-        <DeferUntilVisible minHeight={480}>
-          <RadarMap location={location} />
-        </DeferUntilVisible>
+      <section id="radar" aria-label="Radar map" className="radar-section">
+        <div className="section-heading"><h2><span className="section-number">03 /</span> The bigger picture</h2><span className="eyebrow">INTERACTIVE PRECIPITATION RADAR</span></div>
+        <div className="radar-caption"><p>Weather moves. See where it’s headed.</p><span>Pan, zoom & explore ↗</span></div>
+        <DeferUntilVisible minHeight={480}><RadarMap location={location} /></DeferUntilVisible>
       </section>
+      <div className="closing-note"><span className="brand-sun" aria-hidden="true">✳</span><p>Less noise. <span>More sky.</span></p><a href="#top">BACK TO TOP ↑</a></div>
     </main>
   );
 }

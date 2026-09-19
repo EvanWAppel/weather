@@ -9,7 +9,8 @@ const SOURCES = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-black/[.08] px-6 py-4 text-center text-sm text-zinc-500 dark:border-white/[.12] dark:text-zinc-400">
+    <footer className="site-footer">
+      <span className="footer-brand">atmosphere.</span>
       <p>
         Data from{" "}
         {SOURCES.map((source, i) => (
