@@ -72,22 +72,23 @@ export default function LocationSearch({ onSelect }: LocationSearchProps) {
   const showDropdown = open && (loading || error || results.length > 0);
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-md">
+    <div ref={containerRef} className="location-search">
       <input
         type="search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setOpen(true)}
-        placeholder="Search a city…"
+        onKeyDown={(event) => { if (event.key === "Escape") setOpen(false); }}
+        placeholder="Find your place in the world…"
         aria-label="Search a city"
         autoComplete="off"
-        className="w-full rounded-lg border border-black/[.12] bg-white px-4 py-2.5 text-base outline-none focus:border-black/[.4] dark:border-white/[.16] dark:bg-zinc-900 dark:focus:border-white/[.4]"
+        className="search-input"
       />
 
       {showDropdown && (
         <ul
           role="listbox"
-          className="absolute z-10 mt-1 w-full overflow-hidden rounded-lg border border-black/[.12] bg-white shadow-lg dark:border-white/[.16] dark:bg-zinc-900"
+          className="search-results"
         >
           {loading && (
             <li className="px-4 py-2.5 text-sm text-zinc-500">Searching…</li>

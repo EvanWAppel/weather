@@ -17,7 +17,7 @@ export default function UnitToggle({ unit, onChange }: UnitToggleProps) {
     <div
       role="group"
       aria-label="Temperature unit"
-      className="inline-flex overflow-hidden rounded-lg border border-black/[.12] text-sm dark:border-white/[.16]"
+      className="unit-toggle"
     >
       {UNITS.map(({ value, label }) => {
         const active = unit === value;
@@ -27,11 +27,7 @@ export default function UnitToggle({ unit, onChange }: UnitToggleProps) {
             type="button"
             aria-pressed={active}
             onClick={() => onChange(value)}
-            className={
-              active
-                ? "bg-zinc-900 px-3 py-1.5 font-medium text-white dark:bg-white dark:text-zinc-900"
-                : "px-3 py-1.5 text-zinc-600 hover:bg-black/[.04] dark:text-zinc-300 dark:hover:bg-white/[.06]"
-            }
+            className={active ? "unit-active" : "unit-inactive"}
           >
             {label}
           </button>

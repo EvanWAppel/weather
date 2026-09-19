@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { AlignedData, Options } from "uplot";
+import type { AlignedData, Options, Series } from "uplot";
 import type { HourlyForecast, TemperatureUnit } from "@/lib/forecast";
 import UPlotChart from "./UPlotChart";
 
@@ -12,9 +12,9 @@ interface ForecastChartsProps {
 
 // WU-inspired series colors.
 const COLORS = {
-  temperature: "#d81e05",
-  dewPoint: "#2e8b57",
-  feelsLike: "#9c27b0",
+  temperature: "#dd592f",
+  dewPoint: "#82967c",
+  feelsLike: "#bb9b78",
   cloudCover: "#9e9e9e",
   precip: "#29b6f6",
   snow: "#ec407a",
@@ -49,7 +49,10 @@ function baseAxes(time: string[], dayTicks: number[]): Options["axes"] {
       stroke: COLORS.axis,
       grid: { stroke: COLORS.grid, width: 1 },
       ticks: { stroke: COLORS.grid, width: 1 },
-      splits: () => dayTicks,
+      splits: (chart) => {
+        const stride = Math.max(1, Math.ceil(dayTicks.length / Math.max(2, Math.floor(chart.width / 85))));
+        return dayTicks.filter((_, index) => index % stride === 0);
+      },
       values: (_u, splits) => splits.map((i) => formatDayTick(time[i] ?? "")),
       font: "11px system-ui, sans-serif",
     },
@@ -66,6 +69,18 @@ export default function ForecastCharts({ hourly, unit }: ForecastChartsProps) {
     [hourly.time],
   );
   const dayTicks = useMemo(() => midnightIndices(hourly.time), [hourly.time]);
+  const timeSeries = useMemo<Series>(() => ({
+    label: "Time",
+    value: (_chart, _value, _seriesIndex, index) => {
+      const timestamp = index == null ? undefined : hourly.time[index];
+      if (!timestamp) return "—";
+
+      // Forecast timestamps are already in the selected location's local time.
+      const [hour, minute] = timestamp.split("T")[1].split(":");
+      const hours = Number(hour);
+      return `${formatDayTick(timestamp)} · ${hours % 12 || 12}:${minute} ${hours < 12 ? "AM" : "PM"}`;
+    },
+  }), [hourly.time]);
 
   // Chart 1 — Temperature, Dew Point, Feels Like (single temperature scale).
   const tempOptions = useMemo<Omit<Options, "width">>(
@@ -85,13 +100,13 @@ export default function ForecastCharts({ hourly, unit }: ForecastChartsProps) {
         },
       ],
       series: [
-        {},
+        timeSeries,
         { label: `Temp (${symbol})`, scale: "temp", stroke: COLORS.temperature, width: 1.5, points: { show: false } },
         { label: `Dew Pt (${symbol})`, scale: "temp", stroke: COLORS.dewPoint, width: 1.25, points: { show: false } },
         { label: `Feels (${symbol})`, scale: "temp", stroke: COLORS.feelsLike, width: 1.25, points: { show: false } },
       ],
     }),
-    [hourly.time, dayTicks, symbol],
+    [hourly.time, dayTicks, symbol, timeSeries],
   );
 
   const tempData = useMemo<AlignedData>(
@@ -129,7 +144,7 @@ export default function ForecastCharts({ hourly, unit }: ForecastChartsProps) {
         },
       ],
       series: [
-        {},
+        timeSeries,
         {
           label: "Cloud (%)",
           scale: "pct",
@@ -144,7 +159,7 @@ export default function ForecastCharts({ hourly, unit }: ForecastChartsProps) {
         { label: "Pressure (in)", scale: "inHg", stroke: COLORS.pressure, width: 1.25, points: { show: false } },
       ],
     }),
-    [hourly.time, dayTicks],
+    [hourly.time, dayTicks, timeSeries],
   );
 
   const condData = useMemo<AlignedData>(
@@ -167,11 +182,13 @@ export default function ForecastCharts({ hourly, unit }: ForecastChartsProps) {
   );
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="rounded-lg border border-black/[.08] bg-white p-2 dark:border-white/[.12]">
+    <div className="chart-grid">
+      <div className="chart-panel">
+        <div className="chart-title"><h3>Temperature</h3><span>AIR / DEW POINT / FEELS LIKE</span></div>
         <UPlotChart options={tempOptions} data={tempData} />
       </div>
-      <div className="rounded-lg border border-black/[.08] bg-white p-2 dark:border-white/[.12]">
+      <div className="chart-panel">
+        <div className="chart-title"><h3>Atmospheric conditions</h3><span>PRECIPITATION & MORE</span></div>
         <UPlotChart options={condOptions} data={condData} />
       </div>
     </div>
