@@ -91,11 +91,13 @@ export default function LocationSearch({ onSelect }: LocationSearchProps) {
           className="search-results"
         >
           {loading && (
-            <li className="px-4 py-2.5 text-sm text-zinc-500">Searching…</li>
+            <li className="px-4 py-2.5 text-sm" style={{ color: "var(--faint)" }}>
+              Searching…
+            </li>
           )}
 
           {error && !loading && (
-            <li className="px-4 py-2.5 text-sm text-red-600 dark:text-red-400">
+            <li className="px-4 py-2.5 text-sm" style={{ color: "var(--danger)" }}>
               {error}
             </li>
           )}
@@ -109,7 +111,7 @@ export default function LocationSearch({ onSelect }: LocationSearchProps) {
                   role="option"
                   aria-selected={false}
                   onClick={() => handleSelect(location)}
-                  className="block w-full px-4 py-2.5 text-left text-sm hover:bg-black/[.04] dark:hover:bg-white/[.06]"
+                  className="block w-full px-4 py-2.5 text-left text-sm hover:bg-white/[.08]"
                 >
                   {locationLabel(location)}
                 </button>

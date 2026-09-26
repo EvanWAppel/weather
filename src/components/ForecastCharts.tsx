@@ -10,18 +10,18 @@ interface ForecastChartsProps {
   unit: TemperatureUnit;
 }
 
-// WU-inspired series colors.
+// Series colors tuned for the dark glass panels.
 const COLORS = {
-  temperature: "#dd592f",
-  dewPoint: "#82967c",
-  feelsLike: "#bb9b78",
-  cloudCover: "#9e9e9e",
-  precip: "#29b6f6",
-  snow: "#ec407a",
-  humidity: "#8bc34a",
-  pressure: "#111827",
-  grid: "#00000012",
-  axis: "#6b7280",
+  temperature: "#ff8a5c",
+  dewPoint: "#7fd1a6",
+  feelsLike: "#ffcf87",
+  cloudCover: "#b7c2d0",
+  precip: "#5cc6ff",
+  snow: "#f48fb3",
+  humidity: "#a3e06b",
+  pressure: "#e2e8f0",
+  grid: "rgba(255,255,255,0.09)",
+  axis: "rgba(233,240,250,0.55)",
 };
 
 /** "2026-08-22T00:00" → "Sat 8/22" for day-boundary ticks. */
@@ -182,13 +182,13 @@ export default function ForecastCharts({ hourly, unit }: ForecastChartsProps) {
   );
 
   return (
-    <div className="chart-grid">
-      <div className="chart-panel">
-        <div className="chart-title"><h3>Temperature</h3><span>AIR / DEW POINT / FEELS LIKE</span></div>
+    <div className="charts">
+      <div className="chart-card glass">
+        <div className="chart-head"><h3>Temperature</h3><span>Air · dew point · feels like</span></div>
         <UPlotChart options={tempOptions} data={tempData} />
       </div>
-      <div className="chart-panel">
-        <div className="chart-title"><h3>Atmospheric conditions</h3><span>PRECIPITATION & MORE</span></div>
+      <div className="chart-card glass">
+        <div className="chart-head"><h3>Atmosphere</h3><span>Precipitation &amp; more</span></div>
         <UPlotChart options={condOptions} data={condData} />
       </div>
     </div>

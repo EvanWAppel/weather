@@ -166,10 +166,10 @@ export default function RadarMap({ location }: RadarMapProps) {
       <div
         ref={containerRef}
         aria-label="Radar map"
-        className="h-[420px] w-full overflow-hidden rounded-lg border border-black/[.08] dark:border-white/[.12]"
+        className="h-[420px] w-full overflow-hidden rounded-xl"
       />
       {error ? (
-        <p role="alert" className="text-sm text-red-600 dark:text-red-400">
+        <p role="alert" className="banner-error" style={{ margin: 0 }}>
           {error}
         </p>
       ) : (

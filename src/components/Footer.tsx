@@ -10,7 +10,7 @@ const SOURCES = [
 export default function Footer() {
   return (
     <footer className="site-footer">
-      <span className="footer-brand">atmosphere.</span>
+      <span className="footer-brand">atmosphere</span>
       <p>
         Data from{" "}
         {SOURCES.map((source, i) => (
@@ -19,7 +19,7 @@ export default function Footer() {
               href={source.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-100"
+              className="underline"
             >
               {source.label}
             </a>
@@ -27,7 +27,7 @@ export default function Footer() {
             {i === SOURCES.length - 2 ? " and " : ""}
           </span>
         ))}
-        . Ad-free and tracker-free.
+        . Ad-free · tracker-free.
       </p>
     </footer>
   );

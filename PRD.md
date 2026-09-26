@@ -1,9 +1,10 @@
 # PRD — Ad-Free Weather (codename: *weather*)
 
-**Status:** Draft v0.1 (handoff brief)
+**Status:** Draft v0.2 (personal-app reframe — see DECISIONS.md 2026-09-26)
 **Author:** Evan Appel
-**Date:** 2026-08-14
-**Audience:** Portfolio visitors; anyone who wants a clean weather lookup.
+**Date:** 2026-08-14 (reframed 2026-09-26)
+**Audience:** Primarily personal use (Evan's everyday weather app), shown in the
+evanappel.me / enki portfolio. Anyone who wants a clean weather lookup benefits too.
 
 ---
 
@@ -19,13 +20,21 @@ two features that matter, rendered fast, ad-free, on any device.
 
 ## 2. Vision
 
-A minimal, ad-free web app that reproduces exactly two Weather Underground
-features and nothing else:
+A calm, ad-free **personal weather app** — the kind of thing you open each
+morning — built around exactly two features and nothing else:
 
-1. A **10-day forecast** for a searched or geolocated place.
+1. A **10-day forecast** for a searched or geolocated place, led by a
+   current-conditions hero.
 2. An **interactive radar weather map** with an animated precipitation timeline.
 
-No ads, no tracking, no account, no upsell. Fast first paint, works on a phone.
+No ads, no tracking, no account, no upsell. A **dark, glass-panel UI with a
+sky-reactive background** that shifts with the current conditions and day/night.
+Fast first paint, works on a phone.
+
+> *Origin note:* this started as an ad-free reproduction of Weather Underground's
+> two best features. That framing has been retired (DECISIONS.md 2026-09-26) — the
+> two features remain, but the app is now presented as a personal weather app, not
+> a WU clone.
 
 ## 3. Goals & Non-Goals
 

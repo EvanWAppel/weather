@@ -25,6 +25,14 @@ const NYC: Location = {
 const hours = Array.from({ length: 24 }, (_, i) => i);
 const FORECAST: Forecast = {
   unit: "fahrenheit",
+  current: {
+    temperature: 72,
+    feelsLike: 74,
+    humidity: 45,
+    weatherCode: 0,
+    isDay: true,
+    windSpeed: 6,
+  },
   days: Array.from({ length: 10 }, (_, i) => ({
     date: `2026-08-${String(16 + i).padStart(2, "0")}`,
     tempMax: 80 + i,
@@ -55,8 +63,11 @@ describe("ForecastPanel", () => {
     fetchForecast.mockResolvedValue(FORECAST);
     render(<ForecastPanel location={NYC} unit="fahrenheit" />);
 
-    await screen.findByText("10-Day Forecast");
-    expect(screen.getAllByRole("listitem")).toHaveLength(10);
+    await screen.findByText("10-day forecast");
+    // One selectable card button per day (each labelled "…high…low…").
+    expect(screen.getAllByRole("button", { name: /high .* low/i })).toHaveLength(
+      10,
+    );
     // Cards carry a weekday + month/day label (WU-style columns).
     expect(screen.getByText(/8\/16/)).toBeInTheDocument();
   });
@@ -84,7 +95,7 @@ describe("ForecastPanel", () => {
     const { rerender } = render(
       <ForecastPanel location={NYC} unit="fahrenheit" />,
     );
-    await screen.findByText("10-Day Forecast");
+    await screen.findByText("10-day forecast");
 
     const paris: Location = {
       id: 2,

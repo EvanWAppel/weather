@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ad-Free Weather",
+  title: "atmosphere — weather",
   description:
-    "A clean, ad-free 10-day forecast and interactive radar map. No trackers.",
+    "A calm, ad-free personal weather app: a 10-day forecast and live radar. No trackers.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
