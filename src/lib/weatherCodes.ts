@@ -45,3 +45,27 @@ const UNKNOWN: WeatherDescription = { label: "Unknown", icon: "❓" };
 export function describeWeatherCode(code: number): WeatherDescription {
   return DESCRIPTIONS[code] ?? UNKNOWN;
 }
+
+/**
+ * A coarse "sky" category driving the sky-reactive background gradient. Day vs
+ * night only matters for clear/cloudy skies; precipitation looks the same at
+ * any hour.
+ */
+export type Sky =
+  | "clear-day"
+  | "clear-night"
+  | "cloudy-day"
+  | "cloudy-night"
+  | "fog"
+  | "rain"
+  | "snow"
+  | "storm";
+
+export function weatherSky(code: number, isDay: boolean): Sky {
+  if (code >= 95) return "storm";
+  if ((code >= 71 && code < 80) || code === 85 || code === 86) return "snow";
+  if ((code >= 51 && code < 70) || code >= 80) return "rain";
+  if (code === 45 || code === 48) return "fog";
+  if (code <= 2) return isDay ? "clear-day" : "clear-night";
+  return isDay ? "cloudy-day" : "cloudy-night";
+}

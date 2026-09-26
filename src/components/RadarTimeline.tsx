@@ -25,20 +25,20 @@ export default function RadarTimeline({
   onTogglePlay,
 }: RadarTimelineProps) {
   if (frames.length === 0) {
-    return <p className="text-sm text-zinc-500">Loading radar frames…</p>;
+    return <p className="eyebrow" style={{ padding: "12px 6px" }}>Loading radar frames…</p>;
   }
 
   const frame = frames[current];
   const isForecast = frame?.kind === "nowcast";
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="radar-controls">
       <button
         type="button"
         onClick={onTogglePlay}
         aria-label={playing ? "Pause radar" : "Play radar"}
         aria-pressed={playing}
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/[.12] text-sm hover:bg-black/[.04] dark:border-white/[.16] dark:hover:bg-white/[.06]"
+        className="radar-btn"
       >
         {playing ? "❚❚" : "▶"}
       </button>
@@ -50,16 +50,12 @@ export default function RadarTimeline({
         value={current}
         aria-label="Radar timeline"
         onChange={(e) => onScrub(Number(e.target.value))}
-        className="flex-1 accent-blue-600"
+        className="radar-slider"
       />
 
-      <span className="w-28 shrink-0 text-right text-sm tabular-nums text-zinc-600 dark:text-zinc-300">
+      <span className="radar-time">
         {frame ? frameTime(frame) : "—"}
-        {isForecast && (
-          <span className="ml-1 text-blue-600 dark:text-blue-400">
-            forecast
-          </span>
-        )}
+        {isForecast && <span className="forecast-tag">forecast</span>}
       </span>
     </div>
   );

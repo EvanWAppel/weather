@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 import Home from "./page";
 
 describe("Home", () => {
-  it("renders the app title", () => {
+  it("renders the app brand", () => {
     render(<Home />);
     expect(
-      screen.getByRole("heading", { name: /ad-free weather/i }),
+      screen.getByRole("link", { name: /atmosphere home/i }),
     ).toBeInTheDocument();
   });
 });

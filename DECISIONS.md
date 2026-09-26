@@ -2,6 +2,31 @@
 
 Record here any change to a locked PRD decision, with the reason (per CLAUDE.md).
 
+## 2026-09-26 — Reframe as a personal weather app; dark-glass sky-reactive UI
+
+**Decision:** The product is no longer framed as an *ad-free Weather Underground
+reproduction for portfolio visitors*. It is now a **personal weather app** (still
+shown in the evanappel.me / enki portfolio) with the same **exactly two
+features** — 10-day forecast + interactive radar. The UI was redesigned from the
+editorial/"newspaper" showpiece (masthead, "ALWAYS AD-FREE" badge, "EST. 2026",
+decorative sun-art) to a **dark, glass-panel aesthetic with a sky-reactive
+background** that shifts with current conditions and day/night.
+
+**Why:** Requested pivot — the app should feel like something you open every
+morning for yourself, not a demo that advertises "look, no ads." The WU-clone
+framing was baggage; the two features are the value.
+
+**Scope guard held:** This is a **visual redesign only**. No new user-facing
+features, no accounts, no saved locations, no backend — §3 Non-Goals still apply.
+
+**Data note (minor, same provider):** The Open-Meteo `/v1/forecast` call now also
+requests the **`current` block** (`temperature_2m, apparent_temperature,
+relative_humidity_2m, weather_code, is_day, wind_speed_10m`) plus a
+`wind_speed_unit` matched to the temperature unit. This feeds the current-
+conditions hero and the day/night sky tone. Still **keyless Open-Meteo** — no new
+provider, no secret. `current` is parsed defensively (null when absent, UI falls
+back to today's daily summary).
+
 ## 2026-08-22 — Add hourly trend charts to the 10-day forecast
 
 **Decision:** The 10-day forecast now includes two trend charts under the day

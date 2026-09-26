@@ -46,13 +46,43 @@ export interface HourlyForecast {
   chanceOfSnow: number[];
 }
 
+/**
+ * Present-moment conditions for the hero and the sky-reactive background.
+ * Null when Open-Meteo omits the `current` block, in which case the UI falls
+ * back to today's daily summary.
+ */
+export interface CurrentConditions {
+  /** Air temperature, in the requested unit. */
+  temperature: number;
+  /** Apparent ("feels like") temperature, in the requested unit. */
+  feelsLike: number;
+  /** Relative humidity (%). */
+  humidity: number;
+  /** WMO weather interpretation code. */
+  weatherCode: number;
+  /** True during daylight at the location (drives day/night sky tones). */
+  isDay: boolean;
+  /** Wind speed, in the requested unit's companion (mph for °F, km/h for °C). */
+  windSpeed: number;
+}
+
 export interface Forecast {
   unit: TemperatureUnit;
+  /** Present conditions, or null when unavailable. */
+  current: CurrentConditions | null;
   days: DailyForecast[];
   hourly: HourlyForecast;
 }
 
 interface ForecastResponse {
+  current?: {
+    temperature_2m?: number;
+    apparent_temperature?: number;
+    relative_humidity_2m?: number;
+    weather_code?: number;
+    is_day?: number;
+    wind_speed_10m?: number;
+  };
   daily?: {
     time?: string[];
     temperature_2m_max?: number[];
@@ -102,10 +132,15 @@ export async function fetchForecast(
     "hourly",
     "temperature_2m,dew_point_2m,apparent_temperature,cloud_cover,precipitation_probability,relative_humidity_2m,pressure_msl,snowfall",
   );
+  url.searchParams.set(
+    "current",
+    "temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,is_day,wind_speed_10m",
+  );
   url.searchParams.set("forecast_days", String(FORECAST_DAYS));
   url.searchParams.set("timezone", "auto");
   url.searchParams.set("temperature_unit", unit);
   url.searchParams.set("precipitation_unit", "inch");
+  url.searchParams.set("wind_speed_unit", unit === "celsius" ? "kmh" : "mph");
 
   const res = await fetch(url, { signal });
   if (!res.ok) {
@@ -164,5 +199,19 @@ export async function fetchForecast(
     chanceOfSnow: snowfall.map((s, i) => (s > 0 ? precipProbability[i] : 0)),
   };
 
-  return { unit, days, hourly };
+  // `current` is optional — fall back to today's daily summary if absent.
+  const c = data.current;
+  const current: CurrentConditions | null =
+    c && c.temperature_2m != null && c.weather_code != null
+      ? {
+          temperature: c.temperature_2m,
+          feelsLike: c.apparent_temperature ?? c.temperature_2m,
+          humidity: c.relative_humidity_2m ?? 0,
+          weatherCode: c.weather_code,
+          isDay: c.is_day !== 0,
+          windSpeed: c.wind_speed_10m ?? 0,
+        }
+      : null;
+
+  return { unit, current, days, hourly };
 }

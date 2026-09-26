@@ -98,6 +98,49 @@ describe("fetchForecast", () => {
     expect(requestedUrl).toContain("pressure_msl");
   });
 
+  it("requests current conditions", async () => {
+    const spy = mockFetch({ json: async () => payload() });
+    vi.stubGlobal("fetch", spy);
+    await fetchForecast(NYC);
+    const requestedUrl = String(spy.mock.calls[0][0]);
+    expect(requestedUrl).toContain("current=");
+    expect(requestedUrl).toContain("is_day");
+  });
+
+  it("returns null current when the block is absent", async () => {
+    vi.stubGlobal("fetch", mockFetch({ json: async () => payload() }));
+    const forecast = await fetchForecast(NYC);
+    expect(forecast.current).toBeNull();
+  });
+
+  it("parses current conditions when present", async () => {
+    vi.stubGlobal(
+      "fetch",
+      mockFetch({
+        json: async () => ({
+          ...payload(),
+          current: {
+            temperature_2m: 71,
+            apparent_temperature: 69,
+            relative_humidity_2m: 55,
+            weather_code: 2,
+            is_day: 0,
+            wind_speed_10m: 8,
+          },
+        }),
+      }),
+    );
+    const { current } = await fetchForecast(NYC);
+    expect(current).toEqual({
+      temperature: 71,
+      feelsLike: 69,
+      humidity: 55,
+      weatherCode: 2,
+      isDay: false,
+      windSpeed: 8,
+    });
+  });
+
   it("throws on an HTTP error instead of swallowing it", async () => {
     vi.stubGlobal("fetch", mockFetch({ ok: false, status: 500 }));
     await expect(fetchForecast(NYC)).rejects.toThrow(/500/);
